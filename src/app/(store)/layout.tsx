@@ -1,5 +1,5 @@
 import { Header } from "@/components/header";
-
+import { CartProvider } from "@/contexts/cart-context";
 
 type StoreLayoutProps = {
   children: React.ReactNode
@@ -7,9 +7,11 @@ type StoreLayoutProps = {
 
 export default function StoreLayout(props: StoreLayoutProps) {
   return (
-    <div className="mx-auto grid min-h-svh w-full max-w-7xl grid-rows-app gap-5 p-8">
-      <Header />
-      {props.children}
-    </div>
+    <CartProvider>
+      <div className="grid w-full gap-5 p-8 mx-auto min-h-svh max-w-7xl grid-rows-app">
+        <Header />
+        {props.children}
+      </div>
+    </CartProvider>
   );
 }
