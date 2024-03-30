@@ -1,42 +1,19 @@
 //* Libraries imports
 import Image from "next/image";
 import Link from "next/link";
-import z from "zod";
 
 //* Local imports
 import { s } from "@/data/api";
-
-const sizeSchema = z.object({
-  size: z.string(),
-  stock: z.number(),
-});
-
-const productSchema = z.object({
-  id: z.number(),
-  title: z.string(),
-  slug: z.string(),
-  price: z.number(),
-  image: z.string(),
-  description: z.string(),
-  featured: z.boolean(),
-  sizes: z.array(sizeSchema),
-});
-
-const schema = z.array(productSchema);
+import { productsSchema } from "@/schemas/product";
 
 async function getFeaturedProducts() {
   const response = await s.get({
     url: "/products/featured",
-    schema,
-    // next: {
-    //   revalidate: 60 * 60, // 1 hour
-    // }
-    cache: "no-store"
+    schema: productsSchema,
+    next: {
+      revalidate: 60 * 60 // 1 hour
+    }
   });
-
-  // const response = (await fetch("http://localhost:3000/api/products/featured", {
-  //   cache: "no-store",
-  // })).json();
 
   return response;
 }
