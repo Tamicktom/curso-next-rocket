@@ -1,21 +1,22 @@
 "use client";
+//* Libraries imports
 import { createContext, useContext, useState, type ReactNode } from "react"
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
+//* Local imports
+import type { Product } from "@/schemas/product";
+
+interface CartItem extends Product {
   quantity: number;
 }
 
 interface CartContextType {
   items: CartItem[];
-  addItem: (item: CartItem) => void;
+  addItem: (item: Product) => void;
 }
 
 const defaultCart: CartContextType = {
   items: [],
-  addItem: (item: CartItem) => {
+  addItem: (item: Product) => {
     console.log(item);
   }
 }
@@ -29,18 +30,28 @@ type CartProviderProps = {
 export function CartProvider({ children }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  function addToCart(item: CartItem) {
-    setItems((prevItems) => {
-      const itemIndex = prevItems.findIndex((prevItem) => prevItem.id === item.id);
+  function addToCart(item: Product) {
+    const existingItem = items.find((i) => i.id === item.id);
 
-      if (itemIndex >= 0) {
-        const newItems = [...prevItems];
-        newItems[itemIndex].quantity += 1;
-        return newItems;
-      }
-
-      return [...prevItems, item];
-    });
+    if (existingItem) {
+      setItems(items.map((i) => {
+        if (i.id === item.id) {
+          return {
+            ...i,
+            quantity: i.quantity + 1
+          }
+        }
+        return i;
+      }))
+    } else {
+      setItems([
+        ...items,
+        {
+          ...item,
+          quantity: 1
+        }
+      ])
+    }
   }
 
   return (

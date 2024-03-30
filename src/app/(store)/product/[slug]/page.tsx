@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 //* Local imports
 import { s } from "@/data/api";
 import { productSchema, productsSchema } from "@/schemas/product";
+import { AddToCartButton } from "@/components/add-to-cart-button";
 
 export async function getProduct(slug: string) {
   const response = await s.get({
@@ -109,9 +110,9 @@ export default async function ProductPage(props: Props) {
         </div>
 
         <div className="w-full pt-8">
-          <button className="items-center justify-center w-full h-12 font-semibold text-white rounded-full bg-emerald-600">
-            Adicionar ao carrinho
-          </button>
+          <AddToCartButton
+            product={product}
+          />
         </div>
       </div>
     </div>
