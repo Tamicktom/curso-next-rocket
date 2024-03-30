@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { s } from "@/data/api";
 import { productSchema, productsSchema } from "@/schemas/product";
 
-async function getProduct(slug: string) {
+export async function getProduct(slug: string) {
   const response = await s.get({
     url: `/products/${slug}`,
     schema: productSchema,
@@ -18,7 +18,7 @@ async function getProduct(slug: string) {
   return response;
 }
 
-type Props = {
+export type Props = {
   params: {
     slug: string;
   }
