@@ -11,14 +11,12 @@ type Params = {
   };
 };
 
-export const schema = z.object({
+const schema = z.object({
   slug: z.string(),
 });
 
 export async function GET(request: Request, { params }: Params) {
   const slug = schema.parse(params).slug;
-
-  const featuredProducts = data.products.filter((product) => product.featured);
 
   //fake delay
   await new Promise((resolve) => setTimeout(resolve, 1000));

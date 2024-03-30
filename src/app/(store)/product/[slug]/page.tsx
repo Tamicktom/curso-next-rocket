@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 //* Local imports
 import { s } from "@/data/api";
-import { productSchema } from "@/schemas/product";
+import { productSchema, productsSchema } from "@/schemas/product";
 
 async function getProduct(slug: string) {
   const response = await s.get({
@@ -30,6 +30,19 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return ({
     title: product.title,
   });
+}
+
+export async function generateStaticParams() {
+  const products = await s.get({
+    url: "/products/featured",
+    schema: productsSchema,
+    next: {
+      revalidate: 60 * 60 // 1 hour
+    }
+  })
+  return products.map((product) => ({
+    slug: product.slug
+  }));
 }
 
 export default async function ProductPage(props: Props) {
