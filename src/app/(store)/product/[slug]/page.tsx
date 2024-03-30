@@ -1,5 +1,6 @@
 //* Libraries imports
 import Image from "next/image";
+import type { Metadata } from "next";
 
 //* Local imports
 import { s } from "@/data/api";
@@ -21,6 +22,14 @@ type Props = {
   params: {
     slug: string;
   }
+}
+
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const product = await getProduct(props.params.slug);
+
+  return ({
+    title: product.title,
+  });
 }
 
 export default async function ProductPage(props: Props) {

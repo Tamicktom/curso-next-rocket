@@ -1,6 +1,7 @@
 //* Libraries imports
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 //* Local imports
 import { s } from "@/data/api";
@@ -16,6 +17,10 @@ async function getFeaturedProducts() {
   });
 
   return response;
+}
+
+export const metadata: Metadata = {
+  title: "Home"
 }
 
 export default async function Home() {
