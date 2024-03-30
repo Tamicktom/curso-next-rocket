@@ -7,7 +7,7 @@ import { s } from "@/data/api";
 import { productSchema, productsSchema } from "@/schemas/product";
 import { AddToCartButton } from "@/components/add-to-cart-button";
 
-export async function getProduct(slug: string) {
+async function getProduct(slug: string) {
   const response = await s.get({
     url: `/products/${slug}`,
     schema: productSchema,
@@ -33,18 +33,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   });
 }
 
-export async function generateStaticParams() {
-  const products = await s.get({
-    url: "/products/featured",
-    schema: productsSchema,
-    next: {
-      revalidate: 60 * 60 // 1 hour
-    }
-  })
-  return products.map((product) => ({
-    slug: product.slug
-  }));
-}
+// export async function generateStaticParams() {
+//   const products = await s.get({
+//     url: "/products/featured",
+//     schema: productsSchema,
+//     next: {
+//       revalidate: 60 * 60 // 1 hour
+//     }
+//   })
+//   return products.map((product) => ({
+//     slug: product.slug
+//   }));
+// }
 
 export default async function ProductPage(props: Props) {
   const product = await getProduct(props.params.slug);

@@ -4,6 +4,9 @@ import colors from "tailwindcss/colors";
 
 //* Local imports
 import { env } from "@/data/env";
+import { productSchema } from "@/schemas/product";
+import { s } from "@/data/api";
+import { type Props } from "./page";
 
 //* Route segment config
 export const runtime = "edge";
@@ -16,7 +19,18 @@ export const size = {
 
 export const contentType = "image/png";
 
-import { type Props, getProduct } from "./page";
+
+export async function getProduct(slug: string) {
+  const response = await s.get({
+    url: `/products/${slug}`,
+    schema: productSchema,
+    next: {
+      revalidate: 60 * 60 // 1 hour
+    }
+  });
+
+  return response;
+}
 
 // Image generation
 export default async function OgImage(props: Props) {

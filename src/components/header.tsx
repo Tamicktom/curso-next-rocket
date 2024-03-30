@@ -1,6 +1,7 @@
 //* Libraries imports
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 
 //* Local imports
 import { CartWidget } from "./cart-widget";
@@ -14,7 +15,9 @@ export function Header() {
           devstore
         </Link>
 
-        <SearchForm />
+        <Suspense>
+          <SearchForm />
+        </Suspense>
       </div>
 
       <div className="flex items-center gap-4">
