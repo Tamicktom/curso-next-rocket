@@ -6,6 +6,11 @@ import z from "zod";
 //* Local imports
 import { s } from "@/data/api";
 
+const sizeSchema = z.object({
+  size: z.string(),
+  stock: z.number(),
+});
+
 const productSchema = z.object({
   id: z.number(),
   title: z.string(),
@@ -14,6 +19,7 @@ const productSchema = z.object({
   image: z.string(),
   description: z.string(),
   featured: z.boolean(),
+  sizes: z.array(sizeSchema),
 });
 
 const schema = z.array(productSchema);
