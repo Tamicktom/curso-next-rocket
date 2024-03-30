@@ -22,7 +22,15 @@ async function getFeaturedProducts() {
   const response = await s.get({
     url: "/products/featured",
     schema,
+    // next: {
+    //   revalidate: 60 * 60, // 1 hour
+    // }
+    cache: "no-store"
   });
+
+  // const response = (await fetch("http://localhost:3000/api/products/featured", {
+  //   cache: "no-store",
+  // })).json();
 
   return response;
 }
